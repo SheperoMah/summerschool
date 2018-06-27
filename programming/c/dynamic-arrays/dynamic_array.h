@@ -12,7 +12,15 @@
 typedef struct {
     // TODO: write a structure definition similar to Ex.4d, but now the
     // data array should be for a dynamically allocated 2D array
+    int nx;
+    int ny;
+    double dx;
+    double dy;
+    double dx2;
+    double dy2;   
+    double **data; 
 } field;
+
 
 // Function prototypes
 void init_field(field *f, int nx, int ny);

@@ -5,17 +5,20 @@
 int main(void)
 {
     int N = 16;
-    int k = 2;
 
-    int n;                      /* The current exponent */
+    int n =  2;                      /* The current exponent */
     int val = 1;                /* The current power of k  */
 
     printf("\t  n  \t    2^n\n");
     printf("\t================\n");
-
+    
     /* Add here a for loop that at each iteration prints out
        the current value of the power and updates val */
-#error Add the missing loop
+    while (val <= N){
+        printf("%d\t%d\n", val,  n);
+        n *= 2;
+        val ++;
+    }
 
     return 0;
 }

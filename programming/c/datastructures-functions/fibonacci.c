@@ -1,5 +1,16 @@
 #include <stdio.h>
 
+
+
+int add_one_to_both(int *a, int *b){
+    (*a)++;
+    (*b)++;
+    return 0;
+}
+
+
+
+
 int main(int argc, char *argv[])
 {
     // declare array and loop variable

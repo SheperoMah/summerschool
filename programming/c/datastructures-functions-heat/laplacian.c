@@ -1,22 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "pngwriter.h"
 
-#define NX 258
-#define NY 258
 
-#define DX 0.01
-#define DY 0.01
 
 int main(void)
 {
     int i, j, error_code;
+    int NX = 258; 
+    int NY = 258;
+    double DX = 0.01;
+    double DY = 0.01;
     double array[NX][NY];
     double laplacian[NX][NY];
 
     // First initalize the inner values to zero
-    for (i = 1; i < NX - 2; i++) {
-        for (j = 1; j < NY - 2; j++) {
+    for (i = 1; i < NX - 1; i++) {
+        for (j = 1; j < NY - 1; j++) {
             array[i][j] = 0.0;
         }
     }
@@ -42,8 +43,11 @@ int main(void)
 
     // Evaluate the Laplacian
     // *INDENT-OFF*
-#error Add the missing part
-
+    for (i = 1; i < NX - 1; i++) {
+        for (j = 1; j < NY - 1; j++){
+            laplacian[i][j] = (array[i-1][j] - 2*array[i][j] + array[i+1][j]) / pow(DX,2) + (array[i][j-1] - 2*array[i][j] + array[i][j+1]) / pow(DY,2);
+        }
+    } 
     // *INDENT-ON*
 
     // Call the png writer routine

@@ -14,7 +14,7 @@ Versions from previous years can be found in tags.
 ## Exercises
 
  - [General instructions](exercise-instructions.md)
- - [Fortran programming](programming/fortran)
+ - [Fortran programming](programming/fortran) `Not taken`
  - [C/C++ programming](programming/c)
  - [OpenMP](openmp)
  - [MPI](mpi)
@@ -23,3 +23,4 @@ Versions from previous years can be found in tags.
 ---
 ## Notes
 - [x] Have fun!
+- Mahmoud notes

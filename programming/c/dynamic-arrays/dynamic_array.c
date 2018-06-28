@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
         array[i] = array[0] + i * ny;
     }
 
-    temperature.data = array;
+    //temperature.data = array;
 
 
     // Initialize field and print out the result

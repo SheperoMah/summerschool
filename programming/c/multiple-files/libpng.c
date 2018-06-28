@@ -26,8 +26,7 @@ int main(void)
     }
 
     // Call the png writer routine
-    char fname = 'ex5';
-    save_png(&array, NX, NY, &fname, 'c');
+    save_png(&array, NX, NY, "ex5.png", 'c');
 
 
     if (error_code == 0) {

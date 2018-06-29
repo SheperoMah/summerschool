@@ -7,6 +7,7 @@
 
 #include "heat.h"
 #include "pngwriter.h"
+#include "initialize_fieldData.h"
 
 #define NSTEPS 500  // Default number of iteration steps
 
@@ -86,8 +87,7 @@ void generate_field(field *temperature)
         malloc_2d(temperature->nx + 2, temperature->ny + 2);
 
     /* TODO: Initialize the values of temperature */
-#error Add field initialization
-
+    initialize_fieldData(&temperature, 20.0, 70.0, 85.0, 5.0, 0.0);
 }
 
 /* Set dimensions of the field. Note that the nx is the size of the first

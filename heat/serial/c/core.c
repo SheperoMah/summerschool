@@ -6,13 +6,16 @@
 #include <assert.h>
 
 #include "heat.h"
+#include "laplacian.h"
 
 /* Update the temperature values using five-point stencil */
 void evolve(field *curr, field *prev, double a, double dt)
 {
     int i, j;
     double dx2, dy2;
+    double laplacian;
 
+    laplacian
     /* Determine the temperature field at next time step
      * As we have fixed boundary conditions, the outermost gridpoints
      * are not updated. */
@@ -21,8 +24,11 @@ void evolve(field *curr, field *prev, double a, double dt)
 
     /* TODO: Add update loops for computing the new field values
              of 'curr' using field 'prev' */
-#error Add update loops
-
+    for (i=0; i < curr->nx-1; i++){
+        for (j=0; j< curr->ny-1; j++){
+            curr->data[i][j] = prev->data[i][j] + dt * a *  * curr->data[i][j]
+        }
+    }
 }
 
 

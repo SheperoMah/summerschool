@@ -1,0 +1,2 @@
+gcc -c laplacian.c
+gcc -c initialize_fieldData.c 

@@ -35,7 +35,7 @@ $(OBJS_PNG): C_COMPILER := $(CC)
 $(OBJS): C_COMPILER := $(CC)
 
 $(EXE): $(OBJS) $(OBJS_PNG)
-	$(CC) $(CCFLAGS) $(OBJS) $(OBJS_PNG) -o $@ $(LDFLAGS) $(LIBS)
+	$(CC) $(CCFLAGS) $(OBJS) $(OBJS_PNG) -o $@ $(LDFLAGS) $(LIBS) -h omp 
 
 %.o: %.c
 	$(C_COMPILER) $(CCFLAGS) -c $< -o $@

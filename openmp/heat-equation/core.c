@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <omp.h>
 
 #include "heat.h"
 
@@ -12,13 +13,16 @@ void evolve(field *curr, field *prev, double a, double dt)
 {
     int i, j;
     double dx2, dy2;
-
+    int n;
     /* Determine the temperature field at next time step
      * As we have fixed boundary conditions, the outermost gridpoints
      * are not updated. */
     dx2 = prev->dx * prev->dx;
     dy2 = prev->dy * prev->dy;
+    #pragma omp parallel for private(i,j) shared(curr, prev, dx2, a, dt, dy2, n)
     for (i = 1; i < curr->nx + 1; i++) {
+       n = omp_get_num_threads();
+       
         for (j = 1; j < curr->ny + 1; j++) {
             curr->data[i][j] = prev->data[i][j] + a * dt *
                                ((prev->data[i + 1][j] -

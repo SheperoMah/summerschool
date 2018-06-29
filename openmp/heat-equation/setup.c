@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <omp.h>
+
 
 #include "heat.h"
 #include "pngwriter.h"
@@ -79,6 +81,7 @@ void generate_field(field *temperature)
     int i, j;
     double radius;
     int dx, dy;
+    int Num_Threads;
 
     /* Allocate the temperature array, note that
      * we have to allocate also the ghost layers */
@@ -87,6 +90,7 @@ void generate_field(field *temperature)
 
     /* Radius of the source disc */
     radius = temperature->nx / 6.0;
+    #pragma omp parallel for private(i,j) firstprivate(temperature)
     for (i = 0; i < temperature->nx + 2; i++) {
         for (j = 0; j < temperature->ny + 2; j++) {
             /* Distances of point i, j from the origin */
@@ -101,16 +105,17 @@ void generate_field(field *temperature)
     }
 
     /* Boundary conditions */
+    #pragma omp parallel for private(i,j) firstprivate(temperature)
     for (i = 0; i < temperature->nx + 2; i++) {
-        temperature->data[i][0] = 20.0;
-        temperature->data[i][temperature->ny + 1] = 70.0;
+         temperature->data[i][0] = 20.0;
+         temperature->data[i][temperature->ny + 1] = 70.0;
     }
-
+ 
+    #pragma omp parallel for private(i,j)
     for (j = 0; j < temperature->ny + 2; j++) {
-        temperature->data[0][j] = 85.0;
-        temperature->data[temperature->nx + 1][j] = 5.0;
-    }
-
+         temperature->data[0][j] = 85.0;
+         temperature->data[temperature->nx + 1][j] = 5.0;
+     }
 }
 
 /* Set dimensions of the field. Note that the nx is the size of the first

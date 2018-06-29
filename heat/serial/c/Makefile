@@ -25,7 +25,7 @@ LIBS=-lpng
 endif
 
 EXE=heat_serial
-OBJS=core.o setup.o utilities.o io.o main.o
+OBJS=core.o setup.o utilities.o io.o main.o laplacian.o  initialize_fieldData.o
 OBJS_PNG=$(COMMONDIR)/pngwriter.o
 
 
@@ -37,6 +37,8 @@ utilities.o: utilities.c heat.h
 setup.o: setup.c heat.h
 io.o: io.c heat.h
 main.o: main.c heat.h
+laplacian.o: laplacian.c laplacian.h
+initialize_fieldData.o: initialize_fieldData.c initialize_fieldData.h
 
 $(OBJS_PNG): C_COMPILER := $(CC)
 $(OBJS): C_COMPILER := $(CC)

@@ -4,9 +4,9 @@ endif
 
 COMMONDIR=$(shell \
   if test -d '../../common'; then \
-    echo '../../common/'; \
+    echo '../../common'; \
   elif test -d '../../../common'; then \
-    echo '../../../common/'; \
+    echo '../../../common'; \
   fi; \
 )
 

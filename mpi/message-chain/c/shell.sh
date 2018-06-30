@@ -1,0 +1,10 @@
+#!/bin/bash -e
+
+
+FILE=$1
+FILENAME="${FILE%.*}"
+NUMPROCESSES=$2
+
+
+CC -o $FILENAME $FILE
+aprun -n $NUMPROCESSES ./$FILENAME

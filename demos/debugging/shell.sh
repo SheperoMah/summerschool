@@ -1,0 +1,12 @@
+#!/bin/bash -e
+FILE=$1
+filename="${FILE%.*}"
+numProcesses=$2
+
+
+cc -o $filename $FILE
+
+#cppcheck --enable=all $FILE
+
+aprun -n $numProcesses ./$filename
+

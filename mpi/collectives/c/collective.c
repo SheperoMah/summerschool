@@ -35,10 +35,16 @@ int main(int argc, char *argv[])
 
     /* TODO: use a single collective communication call (and maybe prepare
      *       some parameters for the call) */
+     MPI_Bcast(&sendbuf, //buffer
+               8,//count
+               MPI_INT,//datatype
+               0,//root
+               MPI_COMM_WORLD);//comm
 
+ 
     /* Print data that was received */
     /* TODO: add correct buffer */
-    print_buffers(printbuf, ..., 2 * NTASKS);
+    print_buffers(printbuf, sendbuf, 2 * NTASKS);
 
     MPI_Finalize();
     return 0;

@@ -48,12 +48,30 @@ void single_reader(int my_id, int *localvector, int localsize)
 {
     FILE *fp;
     int *fullvector, nread;
+   
     char *fname = "singlewriter.dat";
+    int ntasks;
+    MPI_Comm_size(MPI_COMM_WORLD, &ntasks);
+    fullvector = (int*) malloc( sizeof(int) * localsize * ntasks);
 
     /* TODO: Implement a function that will read the data from a file so that
        a single process does the file io. Use rank WRITER_ID as the io rank */
+    if (my_id == 0){
+      fp = fopen(fname, "rb");
+      if (fp == NULL) {
+        fprintf(stderr, "Error: %d (%s)\n", errno, strerror(errno));
+        MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
+      } else {
+        nread = fread(fullvector, sizeof(int), DATASIZE, fp);
+        fclose(fp);
+      }  
+    } 
+
+    /* send file to all tasks */
+    MPI_Scatter(fullvector, localsize, MPI_INT, localvector, localsize, MPI_INT, WRITER_ID, MPI_COMM_WORLD);
 
     free(fullvector);
+    
 }
 
 /* Try to avoid this type of pattern when ever possible.

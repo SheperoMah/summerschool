@@ -49,11 +49,27 @@ int main(int argc, char *argv[])
 void single_writer(int my_id, int *localvector, int localsize)
 {
     FILE *fp;
+    int i;
     int *fullvector;
-
+    int ntasks;
+    MPI_Comm_size(MPI_COMM_WORLD, &ntasks);
+    fullvector = (int *) malloc(localsize * sizeof(int)* ntasks);
+    
     /* TODO: Implement a function that will write the data to file so that
        a single process does the file io. Use rank WRITER_ID as the io rank */
+     MPI_Gather(localvector, localsize, MPI_INT, fullvector, localsize,
+               MPI_INT, WRITER_ID, MPI_COMM_WORLD);
 
+   if (my_id == WRITER_ID) {
+     if ((fp = fopen("singlewriter.dat", "wb")) == NULL) {
+       fprintf(stderr, "Error: %d (%s)\n", errno, strerror(errno));
+       MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
+      } else {
+        fwrite(fullvector, sizeof(int), DATASIZE, fp);
+        fclose(fp);
+        printf("Wrote %d elements to file singlewriter.dat\n", DATASIZE);
+      }
+    }
     free(fullvector);
 }
 

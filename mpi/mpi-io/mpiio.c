@@ -37,31 +37,39 @@ int main(int argc, char *argv[])
     for (i = 0; i < localsize; i++) {
         localvector[i] = i + 1 + localsize * my_id;
     }
-
     mpiio_writer(my_id, localvector, localsize);
 
     free(localvector);
 
     MPI_Finalize();
     return 0;
-}
+} 
 
 void mpiio_writer(int my_id, int *localvector, int localsize)
 {
     MPI_File fh;
     MPI_Offset offset;
+    MPI_Request rqst;
 
     /* TODO: Write the data to  an output file "mpiio.dat" using MPI IO. Each
              process should write their own local vectors to correct location
              of the output file. */
-   int mode = MPI_MODE_WRONLY;
+   int ntasks; MPI_Comm_size(MPI_COMM_WORLD, &ntasks);
    MPI_Info info;
-   MPI_File = fhandle;
-   char fname = "results.dat";
+   MPI_File fhandle;
+   char fname[] = "results.dat";
+   MPI_Status stats;
+   offset = my_id * localsize * sizeof(int);
 
-   MPI_File_open(MPI_COMM_WORLD, fname, mode, info, &fhandle);
-  //MPI_File_iwrite()();
+  MPI_File_open(MPI_COMM_WORLD, fname, MPI_MODE_CREATE | MPI_MODE_RDWR, MPI_INFO_NULL, &fhandle);
+   MPI_File_iwrite_at_all(fhandle, offset, localvector, 
+                          localsize * ntasks, MPI_INT, 
+                          &rqst);
+  //MPI_Waitall(ntasks, &rqst, MPI_STATUS_IGNORE);
+  MPI_Wait(&rqst, MPI_STATUS_IGNORE);
 
-
+  //int disp = localsize * my_id * sizeof(int) * localsize; 
+  //MPI_File_write_at(fhandle, disp, localvector, localsize, MPI_INT, &stats);
+  printf("I am %d and I am writing in %s \n", my_id, fname); 
   MPI_File_close(&fhandle);
 }
